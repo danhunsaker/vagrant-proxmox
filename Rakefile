@@ -65,3 +65,9 @@ namespace :test do
 	end
 
 end
+
+desc 'Build, then test (enable coverage with COVERAGE=y)'
+task :default do
+	Rake::Task['build'].invoke
+	Rake::Task['test:all'].invoke
+end
