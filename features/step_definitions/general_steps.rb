@@ -9,7 +9,6 @@ Given(/^no proxmox virtual machine exists$/) do
 end
 
 When(/^I run "vagrant (\w+)(?:\s)?([^"]*)?"$/) do |command, params|
-
 	execute_vagrant_command command.to_sym, *(params.split)
 end
 

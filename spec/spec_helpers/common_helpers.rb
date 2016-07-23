@@ -75,7 +75,13 @@ def unstub_action action_class
 end
 
 def execute_vagrant_command environment, command, *params
-	Vagrant.plugin('2').manager.commands[command].new(params, environment).execute
+	if Vagrant::VERSION < "1.5.0"
+		klass = Vagrant.plugin('2').manager.commands[command]
+	else
+		klass = Vagrant.plugin('2').manager.commands[command][0].call
+    end
+
+	klass.new(params, environment).execute
 end
 
 def up_local_box
@@ -101,7 +107,11 @@ end
 
 def add_dummy_box
 	begin
-		Vagrant::Environment.new.boxes.add 'dummy_box/dummy.box', 'b681e2bc-617b-4b35-94fa-edc92e1071b8', :proxmox
+		if Vagrant::VERSION < "1.5.0"
+			Vagrant::Environment.new.boxes.add 'dummy_box/dummy.box', 'b681e2bc-617b-4b35-94fa-edc92e1071b8', :proxmox
+		else
+			Vagrant::Environment.new.boxes.add 'dummy_box/dummy.box', 'b681e2bc-617b-4b35-94fa-edc92e1071b8', '0.0.1', {providers: :proxmox}
+		end
 	rescue Vagrant::Errors::BoxAlreadyExists
 	end
 end

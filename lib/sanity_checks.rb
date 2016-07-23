@@ -11,5 +11,5 @@ if Vagrant::VERSION < '1.4.0'
 end
 
 if RUBY_VERSION.to_i < 2
-	fail 'The Vagrant Proxmox plugin is ony compatible with Ruby 2.0+'
+	fail 'The Vagrant Proxmox plugin is only compatible with Ruby 2.0+'
 end

@@ -1,1 +1,29 @@
 language: ruby
+matrix:
+  include:
+    - gemfile: gemfiles/vagrant-1.8.5
+      env: BUNDLER_VERSION=1.12.5
+    - gemfile: gemfiles/vagrant-1.8.1
+      env: BUNDLER_VERSION=1.10.6
+    - gemfile: gemfiles/vagrant-1.7.4
+      env: BUNDLER_VERSION=1.10.5
+    - gemfile: gemfiles/vagrant-1.6.5
+      env: BUNDLER_VERSION=1.6.9
+    - gemfile: gemfiles/vagrant-1.5.4
+      env: BUNDLER_VERSION=1.5.3
+    - gemfile: gemfiles/vagrant-1.4.3
+      env: BUNDLER_VERSION=1.12.5
+    - gemfile: gemfiles/vagrant-1.4.0
+      env: BUNDLER_VERSION=1.12.5
+  allow_failures:
+    - gemfile: gemfiles/vagrant-1.8.5
+    - gemfile: gemfiles/vagrant-1.8.1
+    - gemfile: gemfiles/vagrant-1.7.4
+    - gemfile: gemfiles/vagrant-1.6.5
+    - gemfile: gemfiles/vagrant-1.5.4
+before_install:
+  - gem install --version="$BUNDLER_VERSION" bundler
+install:
+  - bundle _"$BUNDLER_VERSION"_ install --jobs=3 --retry=3
+script:
+  - bundle _"$BUNDLER_VERSION"_ exec rake spec

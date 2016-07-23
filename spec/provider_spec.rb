@@ -5,8 +5,8 @@ module VagrantPlugins::Proxmox
 
   describe Provider do
 
-    let(:machine) { environment.machine(environment.primary_machine_name, :proxmox) }
     let(:environment) { Vagrant::Environment.new vagrantfile_name: 'dummy_box/Vagrantfile' }
+    let(:machine) { environment.machine(environment.primary_machine_name, :proxmox) }
     let(:ui) { double('ui').as_null_object }
 
     subject { described_class.new(machine) }

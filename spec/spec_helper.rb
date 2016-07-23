@@ -25,12 +25,12 @@ RSpec.configure do |config|
 	config.after(:suite) do
 		remove_dummy_box
 	end
-	config.after(:each) do
-		FileUtils.rm_r '.vagrant', force: true
-	end
 
 	config.before(:each, :need_box) do
 		up_local_box
+	end
+	config.after(:each) do
+		FileUtils.rm_r '.vagrant', force: true
 	end
 
 end

@@ -94,7 +94,13 @@ end
 
 def execute_vagrant_command command, *params
 	begin
-		Vagrant.plugin('2').manager.commands[command].new(params, @environment).execute
+		if Vagrant::VERSION < "1.5.0"
+			klass = Vagrant.plugin('2').manager.commands[command]
+		else
+			klass = Vagrant.plugin('2').manager.commands[command][0].call
+		end
+
+		klass.new(params, @environment).execute
 	rescue => e
 		@ui.error e.to_s
 	end
@@ -103,7 +109,11 @@ end
 def add_dummy_box
 	begin
 		VagrantProcessMock.enabled = false
-		Vagrant::Environment.new.boxes.add 'dummy_box/dummy.box', 'b681e2bc-617b-4b35-94fa-edc92e1071b8', :proxmox
+		if Vagrant::VERSION < "1.5.0"
+			Vagrant::Environment.new.boxes.add 'dummy_box/dummy.box', 'b681e2bc-617b-4b35-94fa-edc92e1071b8', :proxmox
+		else
+			Vagrant::Environment.new.boxes.add 'dummy_box/dummy.box', 'b681e2bc-617b-4b35-94fa-edc92e1071b8', '0.0.1', {providers: :proxmox}
+		end
 		VagrantProcessMock.enabled = true
 	rescue Vagrant::Errors::BoxAlreadyExists
 	end
