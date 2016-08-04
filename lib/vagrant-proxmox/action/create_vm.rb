@@ -39,41 +39,45 @@ module VagrantPlugins
 				def create_params_qemu(config, env, vm_id)
 					network = "#{config.qemu_nic_model},bridge=#{config.qemu_bridge}"
 					network = "#{config.qemu_nic_model}=#{get_machine_macaddress(env)},bridge=#{config.qemu_bridge}" if get_machine_macaddress(env)
-					{vmid: vm_id,
-					 name: env[:machine].config.vm.hostname || env[:machine].name.to_s,
-					 ostype: config.qemu_os,
-					 ide2: "#{config.qemu_iso},media=cdrom",
-					 sata0: "#{config.qemu_storage}:#{config.qemu_disk_size},format=#{config.qemu_disk_format},cache=#{config.qemu_cache}",
-					 sockets: config.qemu_sockets,
-					 cores: config.qemu_cores,
-					 memory: config.vm_memory,
-					 net0: network,
-					 description: "#{config.vm_name_prefix}#{env[:machine].name}"}
+					{
+						vmid: vm_id,
+						name: env[:machine].config.vm.hostname || env[:machine].name.to_s,
+						ostype: config.qemu_os,
+						ide2: "#{config.qemu_iso},media=cdrom",
+						sata0: "#{config.qemu_storage}:#{config.qemu_disk_size},format=#{config.qemu_disk_format},cache=#{config.qemu_cache}",
+						sockets: config.qemu_sockets,
+						cores: config.qemu_cores,
+						memory: config.vm_memory,
+						net0: network,
+						description: "#{config.vm_name_prefix}#{env[:machine].name}"
+					}
 				end
 
 				private
 				def create_params_openvz(config, env, vm_id)
-					{vmid: vm_id,
-					 ostemplate: config.openvz_os_template,
-					 hostname: env[:machine].config.vm.hostname || env[:machine].name.to_s,
-					 password: 'vagrant',
-					 memory: config.vm_memory,
-					 description: "#{config.vm_name_prefix}#{env[:machine].name}"}
-					.tap do |params|
+					{
+						vmid: vm_id,
+						ostemplate: config.openvz_os_template,
+						hostname: env[:machine].config.vm.hostname || env[:machine].name.to_s,
+						password: 'vagrant',
+						memory: config.vm_memory,
+						description: "#{config.vm_name_prefix}#{env[:machine].name}"
+					}.tap do |params|
 						params[:ip_address] = get_machine_ip_address(env) if get_machine_ip_address(env)
 					end
 				end
-                
+
                 private
 				def create_params_lxc(config, env, vm_id)
-					{vmid: vm_id,
-					 ostemplate: config.openvz_os_template,
-					 hostname: env[:machine].config.vm.hostname || env[:machine].name.to_s,
-					 password: 'vagrant',
-					 rootfs: "#{config.vm_storage}:#{config.vm_disk_size}",
-					 memory: config.vm_memory,
-					 description: "#{config.vm_name_prefix}#{env[:machine].name}"}
-					.tap do |params|
+					{
+						vmid: vm_id,
+						ostemplate: config.openvz_os_template,
+						hostname: env[:machine].config.vm.hostname || env[:machine].name.to_s,
+						password: 'vagrant',
+						rootfs: "#{config.vm_storage}:#{config.vm_disk_size}",
+						memory: config.vm_memory,
+						description: "#{config.vm_name_prefix}#{env[:machine].name}"
+					}.tap do |params|
 						params[:net0] = "name=#{get_machine_interface_name(env)},ip=#{get_machine_ip_address(env)}/24,gw=#{get_machine_gw_ip(env)},bridge=#{get_machine_bridge_name(env)}" if get_machine_ip_address(env)
 					end
 				end

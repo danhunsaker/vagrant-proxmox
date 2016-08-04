@@ -11,6 +11,8 @@ def stub_machine_initialization
 		to_return body: {data: [{node: 'node1', id: 'openvz/900'}]}.to_json
 	stub_request(:post, proxmox_api_url('/nodes/node1/openvz')).
 		to_return body: {data: 'UPID:node1:A:B:C:D:task_type:user@host:'}.to_json
+	stub_request(:post, proxmox_api_url('/nodes/node1/qemu')).
+		to_return body: {data: 'UPID:node1:A:B:C:D:task_type:user@host:'}.to_json
 	stub_request(:get, proxmox_api_url('/nodes/node1/tasks/UPID:node1:A:B:C:D:task_type:user@host:/status')).
 		to_return body: {data: {exitstatus: 'OK'}}.to_json
 	stub_request(:post, proxmox_api_url('/nodes/node1/openvz/900/status/start')).
@@ -35,6 +37,8 @@ def stub_machine_initialization
 			to_return(body: {data: []}.to_json)
 		{body: {data: nil}.to_json}
 	end
+	stub_request(:get, proxmox_api_url('/nodes/node1/network/vmbr0')).
+  		to_return body: {data: {}}.to_json
 end
 
 def stub_default_calls
@@ -48,6 +52,8 @@ def stub_default_calls
 	stub_request(:get, proxmox_api_url('/cluster/resources?type=vm')).
 		to_return body: {data: [{node: 'node1', id: 'openvz/900'}]}.to_json
 	stub_request(:post, proxmox_api_url('/nodes/node1/openvz')).
+		to_return body: {data: 'UPID:node1:A:B:C:D:task_type:user@host:'}.to_json
+	stub_request(:post, proxmox_api_url('/nodes/node1/qemu')).
 		to_return body: {data: 'UPID:node1:A:B:C:D:task_type:user@host:'}.to_json
 	stub_request(:get, proxmox_api_url('/nodes/node1/tasks/UPID:node1:A:B:C:D:task_type:user@host:/status')).
 		to_return body: {data: {exitstatus: 'OK'}}.to_json

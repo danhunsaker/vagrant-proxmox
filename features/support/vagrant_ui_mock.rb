@@ -1,4 +1,6 @@
 class VagrantUIMock
+	
+	attr_accessor :opts
 
 	class << self
 		attr_accessor :logging
@@ -11,6 +13,7 @@ class VagrantUIMock
 	def reset!
 		@messages = []
 		@answers = []
+		@opts = {}
 	end
 
 	def scope _
