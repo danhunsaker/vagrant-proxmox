@@ -25,18 +25,18 @@ def stub_machine_initialization
 		to_return body: {data: 'UPID:node1:A:B:C:D:task_type:user@host:'}.to_json
 	stub_request(:delete, proxmox_api_url('/nodes/node1/storage/local/content/iso/justanisofile.iso')).
 		to_return do |request|
-		remove_request_stub @storage_content_request_stub
-		@storage_content_request_stub = stub_request(:get, proxmox_api_url('/nodes/node1/storage/local/content')).
-			to_return(body: {data: []}.to_json)
-		{body: {data: nil}.to_json}
-	end
+			remove_request_stub @storage_content_request_stub
+			@storage_content_request_stub = stub_request(:get, proxmox_api_url('/nodes/node1/storage/local/content')).
+				to_return(body: {data: []}.to_json)
+			{body: {data: nil}.to_json}
+		end
 	stub_request(:delete, proxmox_api_url('/nodes/node1/storage/local/content/vztmpl/mytemplate.tar.gz')).
 		to_return do |request|
-		remove_request_stub @storage_content_request_stub
-		@storage_content_request_stub = stub_request(:get, proxmox_api_url('/nodes/node1/storage/local/content')).
-			to_return(body: {data: []}.to_json)
-		{body: {data: nil}.to_json}
-	end
+			remove_request_stub @storage_content_request_stub
+			@storage_content_request_stub = stub_request(:get, proxmox_api_url('/nodes/node1/storage/local/content')).
+				to_return(body: {data: []}.to_json)
+			{body: {data: nil}.to_json}
+		end
 	stub_request(:get, proxmox_api_url('/nodes/node1/network/vmbr0')).
   		to_return body: {data: {}}.to_json
 end
@@ -69,19 +69,19 @@ def stub_default_calls
 		to_return body: {data: 'UPID:node1:A:B:C:D:task_type:user@host:'}.to_json
 	stub_request(:delete, proxmox_api_url('/nodes/node1/storage/local/content/iso/justanisofile.iso')).
 		to_return do |request|
-		remove_request_stub @storage_content_request_stub
-		@storage_content_request_stub = stub_request(:get, proxmox_api_url('/nodes/node1/storage/local/content')).
-			to_return(body: {data: []}.to_json)
-		{body: {data: nil}.to_json}
-	end
+			remove_request_stub @storage_content_request_stub
+			@storage_content_request_stub = stub_request(:get, proxmox_api_url('/nodes/node1/storage/local/content')).
+				to_return(body: {data: []}.to_json)
+			{body: {data: nil}.to_json}
+		end
 	stub_request(:delete, proxmox_api_url('/nodes/node1/storage/local/content/vztmpl/mytemplate.tar.gz')).
 		to_return do |request|
-		remove_request_stub @storage_content_request_stub
-		@storage_content_request_stub = stub_request(:get, proxmox_api_url('/nodes/node1/storage/local/content')).
-			to_return(body: {data: []}.to_json)
-		{body: {data: nil}.to_json}
-  end
-  stub_request(:get, proxmox_api_url('/nodes/node1/network/vmbr0')).
+			remove_request_stub @storage_content_request_stub
+			@storage_content_request_stub = stub_request(:get, proxmox_api_url('/nodes/node1/storage/local/content')).
+				to_return(body: {data: []}.to_json)
+			{body: {data: nil}.to_json}
+	    end
+    stub_request(:get, proxmox_api_url('/nodes/node1/network/vmbr0')).
 		to_return body: {data: {}}.to_json
 end
 

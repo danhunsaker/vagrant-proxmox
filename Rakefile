@@ -7,6 +7,11 @@ require 'rspec/core/rake_task'
 require 'geminabox_client'
 require 'yaml'
 
+# Immediately sync all stdout so that tools like buildbot can
+# immediately load in the output.
+$stdout.sync = true
+$stderr.sync = true
+
 gemspec = eval(File.read 'vagrant-proxmox.gemspec')
 
 desc 'Build the project'
@@ -14,11 +19,14 @@ task :build do
 	Gem::GemRunner.new.run ['build', "#{gemspec.name}.gemspec"]
 end
 
-RSpec::Core::RakeTask.new
+RSpec::Core::RakeTask.new(:spec) do |task|
+	task.rspec_opts = "--order defined"
+end
 
 desc 'Run RSpec code examples with coverage'
 RSpec::Core::RakeTask.new('spec_coverage') do |_|
 	ENV['RUN_WITH_COVERAGE'] = 'true'
+	task.rspec_opts = "--order defined"
 end
 
 task :release_local do
@@ -47,9 +55,9 @@ namespace :test do
 
 	desc 'Run all rspec tests (enable coverage with COVERAGE=y)'
 	task :rspec do
-		require 'rspec/core/rake_task'
 		RSpec::Core::RakeTask.new(:_specs) do |task|
 			task.verbose = false
+			task.rspec_opts = "--order defined"
 		end
 		Rake::Task['_specs'].invoke
 	end

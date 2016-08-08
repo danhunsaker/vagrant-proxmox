@@ -24,4 +24,5 @@ before_install:
 install:
   - bundle _${BUNDLER_VERSION}_ install --jobs=3 --retry=3
 script:
-  - bundle _${BUNDLER_VERSION}_ exec rake spec
+  - bundle _${BUNDLER_VERSION}_ exec rake test:rspec
+  - bundle _${BUNDLER_VERSION}_ exec rake test:cucumber
